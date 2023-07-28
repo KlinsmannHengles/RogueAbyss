@@ -20,14 +20,24 @@ public class MainMenuManager : MonoBehaviour
     public CanvasGroup CreditsScreenCanvasGroup;
 
     private GameObject screenToChange; // support
+    private bool enableToPressStartButton = true; // support
 
     public void StartGame()
     {
-        mainCamera.DOOrthoSize(1f, 2f).SetEase(Ease.InQuint);
-        backgroundSprite.DOFade(0f, 2f).SetEase(Ease.InQuint);
-        mainCanvasGroup.DOFade(0f, 2f).SetEase(Ease.InQuint);
-        backgroundSong.DOFade(0f, 2f).SetEase(Ease.InQuint);
-        StartCoroutine(StartGameSupport());
+        if (enableToPressStartButton)
+        {
+            enableToPressStartButton = false;
+            mainCamera.DOOrthoSize(1f, 2f).SetEase(Ease.InQuint);
+            backgroundSprite.DOFade(0f, 2f).SetEase(Ease.InQuint);
+            mainCanvasGroup.DOFade(0f, 2f).SetEase(Ease.InQuint);
+            backgroundSong.DOFade(0f, 2f).SetEase(Ease.InQuint).onComplete = EnableToPressStartButton;
+            StartCoroutine(StartGameSupport());
+        }     
+    }
+
+    private void EnableToPressStartButton()
+    {
+        enableToPressStartButton = true;
     }
 
     public IEnumerator StartGameSupport()
